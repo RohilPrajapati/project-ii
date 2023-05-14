@@ -1,0 +1,28 @@
+*{
+    padding: 0px;
+    margin:0px;
+}
+#chart_div{
+    height: 100vh;
+}
+table{
+    margin:10px;
+    width: 100%;
+}
+table,tr,td,th{
+    border: 2px solid black; 
+    border-collapse: collapse;
+}
+td,th{
+    padding: 5px 10px;
+}
+.alert-msg{
+    color: red; 
+    position: absolute;
+    bottom: 10px;
+    left: 50%; 
+    transform: translateX(-50%);
+    background-color: rgb(250, 205, 205);
+    padding: 5px 15px;
+    border-radius: 10px;
+}
