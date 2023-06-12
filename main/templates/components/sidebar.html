@@ -1,0 +1,85 @@
+<div class="sidebar">
+    <form action="http://127.0.0.1:5000/" class="side_bar row m-3 justify-content-center" method="POST">
+        <!-- <label for="algo">Algorithm:</label>
+        <div class="input-group">
+            
+             <input  name="eqn" placeholder="Enter the Algo" type="text"
+                value="{{ request.form['eqn'] }}">
+            <select class="my-2 form-control" id="cars" name="algo">
+                <option value="volvo">Bisection Method</option>
+                <option value="saab">False Position Method</option>
+                <option value="fiat">Newton-Raphson Method</option>
+                <option value="audi">Fixed Point</option>
+            </select>
+        </div> -->
+        <div class="input_box">
+            <label for="">Algorithm :</label>
+            <select name="algo" id="algo" class="input_field">
+                <option value="bisection">Bisection Method</option>
+                <option value="newtonRaphson">Newton-Raphson Method</option>
+                <option value="falsePosition">False Position Method</option>
+                <option value="fixedPoint">Fixed Point Method</option>
+            </select>
+        </div>
+
+        <div class="input_box">
+            <label for="">Equation :</label>
+            <input class="input_field" name="eqn" placeholder="Enter the Equation" type="text"
+                value="{{ request.form['eqn'] }}">
+        </div>
+
+        <!-- <input type="text" class="col-12 my-2" name="eqn" placeholder="Enter the Equation"> -->
+        <div class="input_box">
+            <label for="">Guess No. First:</label>
+            <input class="input_field" name="a" placeholder="Guess number 1" type="number"
+                value="{{ request.form['a'] }}">
+        </div>
+        <div class="input_box">
+            <label for="">Guess No. Second:</label>
+            <input class="input_field" name="b" placeholder="Guess number 2" type="number"
+                value="{{ request.form['b'] }}">
+        </div>
+        <div class="input_box" style="justify-content: flex-end;">
+            <button class="submit_btn" type="submit">Submit</button>
+        </div>
+
+    </form>
+    <div class="">
+        <table>
+            <thead>
+                <tr>
+                    {% for head in response['header'] %}
+                    <th>{{head}}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody id="data_table">
+                {% for data in response['iteration'] %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    {% for head in response['header'][1:] %}
+                    <th>{{ data[head] }}</th>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+        <div>
+            Therefore the root = {{ response['root'] }}
+        </div>
+        <div class="action">
+            <button class="btn btn_danger">Previous</button>
+            <button class="btn btn_primary">Complete</button>
+            <button class="btn btn_go">Next</button>
+        </div>
+    </div>
+</div>
+<style>
+    .sidebar {
+        position: fixed;
+        width: 40%;
+        background-color: rgb(215, 215, 215);
+        height: 95vh;
+    }
+</style>

@@ -1,0 +1,106 @@
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" integrity="sha512-UXumZrZNiOwnTcZSHLOfcTs0aos2MzBWHXOHOuB0J/R44QB0dwY5JgfbvljXcklVf65Gc4El6RjZ+lnwd2az2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/0.7.7/chartjs-plugin-zoom.min.js"></script>
+
+<div class="chart_div">
+
+    <canvas id="myChart" style="width:100%;height:93vh;" class="chart"></canvas>
+</div>
+<div class="action_graph">
+    <button class="" onclick="switchChartType()">Switch</button>
+</div>
+<script>
+    // Get the canvas element
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    // Set initial chart type
+    var chartType = 'scatter';
+
+    // Set initial chart data
+    var data = {
+        datasets: [
+            {
+                label: 'Scatter Chart',
+                data: [
+                    { x: 1, y: 3 },
+                    { x: 2, y: 5 },
+                    { x: 3, y: 2 },
+                    { x: 4, y: 8 },
+                    { x: 5, y: 4 },
+                ],
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                lineTension: 0.5,
+            },
+        ],
+    };
+
+    // Set initial chart options
+    var options = {
+        animation: false,
+        responsive: true,
+
+        scales: {
+            yAxes: [{
+              position: 'right',
+                ticks: {
+                    beginAtZero:true,
+                    // position: 'right'
+                }
+            }],
+
+        },
+        plugins: {
+            zoom: {
+                // Container for pan options
+                pan: {
+                    // Boolean to enable panning
+                    enabled: true,
+
+                    // Panning directions. Remove the appropriate direction to disable 
+                    // Eg. 'y' would only allow panning in the y direction
+                    mode: 'xy'
+                },
+
+                // Container for zoom options
+                zoom: {
+                    // Boolean to enable zooming
+                    enabled: true,
+
+                    // Zooming directions. Remove the appropriate direction to disable 
+                    // Eg. 'y' would only allow zooming in the y direction
+                    mode: 'xy',
+                }
+            }
+        }
+        // maintainAspectRatio: true,
+    };
+
+    // Create the chart
+    var myChart = new Chart(ctx, {
+        type: chartType,
+        data: data,
+        options: options,
+    });
+
+    // Function to switch chart types
+    function switchChartType() {
+        console.log("running")
+        // Update the chart type and destroy the previous chart
+        var ctx = document.getElementById('myChart').getContext('2d');
+        chartType = chartType === 'scatter' ? 'line' : 'scatter';
+        myChart.destroy();
+
+        // Create a new chart with the updated type
+        myChart = new Chart(ctx, {
+            type: chartType,
+            data: data,
+            options: options,
+        });
+        console.log(chartType)
+        console.log(data)
+        console.log(options)
+    }
+</script>

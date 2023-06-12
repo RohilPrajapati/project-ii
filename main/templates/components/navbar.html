@@ -1,0 +1,47 @@
+<div class="topnav">
+    <span class="brand_name">Solver</span>
+    <ul class="menu">
+        <li>
+            <a href="{{ url_for('index') }}">Home</a>
+        </li>
+        {% if not session['id'] %}
+        <li><a class="nav_link" href="{{ url_for('login') }}">Login</a></li>
+        <li><a href="{{ url_for('register') }}">Register</a></li>
+        {% else %}
+        <li><a class="nav_link" href="{{ url_for('logout') }}">Logout</a></li>
+        {% endif %}
+        
+    </ul>
+</div>
+<style>
+    .topnav{
+        line-height: 40px;
+        width: 100%;
+        position: fixed;
+        display: flex;
+        justify-content: space-between;
+        top: 0px;
+        left: 0px;
+        z-index: 1;
+        background-color:rgb(215, 215, 215);
+    }
+    .brand_name{
+        display: inline-block;
+        font-weight: bold;
+        width: 40%;
+        padding-left: 50px;
+    }
+    .menu{
+        width: 60%;
+        display: flex;
+        justify-content: flex-end;
+        list-style: none;
+        padding-right: 50px;
+    }
+    .nav_link{
+        color: black;
+        padding: 2px 30px;
+        text-decoration: none;
+        
+    }
+</style>

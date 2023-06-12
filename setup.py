@@ -1,8 +1,8 @@
 from setuptools import setup
 
 setup(
-    name='project',
-    packages=['project'],
+    name='main',
+    packages=['main'],
     include_package_data=True,
     install_requires=[
         'flask',
