@@ -14,11 +14,15 @@
         </div> -->
         <div class="input_box">
             <label for="">Algorithm :</label>
-            <select name="algo" id="algo" class="input_field">
-                <option value="bisection">Bisection Method</option>
-                <option value="newtonRaphson">Newton-Raphson Method</option>
-                <option value="falsePosition">False Position Method</option>
-                <option value="fixedPoint">Fixed Point Method</option>
+            <select name="algo" id="algo" class="input_field" onchange="check_algo()">
+                <option value="bisection" {% if request.form['algo']=='bisection' %}selected{% endif %}>Bisection Method
+                </option>
+                <option value="newtonRaphson" {% if request.form['algo']=='newtonRaphson' %}selected{% endif %}>
+                    Newton-Raphson Method</option>
+                <option value="falsePosition" {% if request.form['algo']=='falsePosition' %}selected{% endif %}>False
+                    Position Method</option>
+                <option value="fixedPoint" {% if request.form['algo']=='fixedPoint' %}selected{% endif %}>Fixed Point
+                    Method</option>
             </select>
         </div>
 
@@ -34,9 +38,9 @@
             <input class="input_field" name="a" placeholder="Guess number 1" type="number"
                 value="{{ request.form['a'] }}">
         </div>
-        <div class="input_box">
+        <div class="input_box" id="b_div">
             <label for="">Guess No. Second:</label>
-            <input class="input_field" name="b" placeholder="Guess number 2" type="number"
+            <input id="b" class="input_field" name="b" placeholder="Guess number 2" type="number"
                 value="{{ request.form['b'] }}">
         </div>
         <div class="input_box" style="justify-content: flex-end;">
@@ -44,8 +48,11 @@
         </div>
 
     </form>
+    {% if response.data_status: %}
+    <div id="ready_msg" class="info_msg">Ready to Run</div>
+    {% endif %}
     <div class="">
-        <table>
+        <table id="data_table">
             <thead>
                 <tr>
                     {% for head in response['header'] %}
@@ -53,25 +60,26 @@
                     {% endfor %}
                 </tr>
             </thead>
-            <tbody id="data_table">
-                {% for data in response['iteration'] %}
+            <tbody>
+                <!-- {% for data in response['iteration'] %}
                 <tr>
                     <td>{{ loop.index }}</td>
                     {% for head in response['header'][1:] %}
                     <th>{{ data[head] }}</th>
                     {% endfor %}
                 </tr>
-                {% endfor %}
+                {% endfor %} -->
             </tbody>
 
         </table>
-        <div>
+        <div id="complete_msg" class="info_msg" style="display: none;">Completed Table</div>
+        <!-- <div>
             Therefore the root = {{ response['root'] }}
-        </div>
+        </div> -->
         <div class="action">
-            <button class="btn btn_danger">Previous</button>
+            <button class="btn btn_danger" id="btn_prev" onclick="previous_btn()">Previous</button>
             <button class="btn btn_primary">Complete</button>
-            <button class="btn btn_go">Next</button>
+            <button class="btn btn_go" id="btn_next" onclick="next_btn()">Next</button>
         </div>
     </div>
 </div>
@@ -83,3 +91,44 @@
         height: 95vh;
     }
 </style>
+<script>
+    var response = JSON.parse('{{ response| tojson }}');
+    res_tbl_head = response.header
+    res_data = response.iteration
+    console.log(res_data)
+
+
+    var table = document.getElementById("data_table")
+    table.style.display = "None"
+    var current_val = -1
+
+    // when page is created
+    var btn = document.getElementById("btn_prev");
+    btn.disabled = true;
+
+
+    var algo = document.getElementById('algo');
+    var val = algo.value;
+
+    if (val == "newtonRaphson") {
+        var b_div = document.getElementById('b_div');
+        b_div.style.display = "none"
+    }
+
+
+    // when event is occur
+    function check_algo() {
+        var algo = document.getElementById('algo');
+        var val = algo.value;
+
+        if (val == "newtonRaphson") {
+            var b_div = document.getElementById('b_div');
+            b_div.style.display = "none"
+        }
+        else {
+            var b_div = document.getElementById('b_div');
+            b_div.style.display = "flex"
+        }
+    }
+    
+</script>

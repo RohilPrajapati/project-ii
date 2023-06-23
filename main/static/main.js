@@ -67,26 +67,7 @@
 //     }
 // }
 
-// function next_btn(current_index, data) {
-//     // Select the table
-//     var table = document.getElementById("data_table");
 
-//     // Create a new table row
-    
-
-//     // Create cells and set their content
-    
-
-//     // Append the cells to the row
-//     newRow.appendChild(cell1);
-//     newRow.appendChild(cell2);
-
-//     // Append the new row to the table's tbody element
-//     table.querySelector("tbody").appendChild(newRow);
-// }
-// function previous(current_index, data) {
-
-// }
 // function createtr(){
 //     var newRow = document.createElement("tr");
 //     // for (i=0;i)

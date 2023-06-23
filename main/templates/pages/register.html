@@ -3,6 +3,11 @@
 Register
 {% endblock %}
 {% block body %}
+{% if response%}
+<div style="background-color: greenyellow;color: green;text-align: center;">
+    {{response['message']}}
+</div>
+{% endif %}
 <form action="{{ url_for('register') }}" method="POST" class="center_form">
     <div class="input_box">
         <label for="username">Username</label>

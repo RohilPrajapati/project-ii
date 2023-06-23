@@ -14,14 +14,23 @@
 .chart_div{
     position: fixed;
     right: 0px;
-    width: 55%;
-    height: 100%;
+    width: 60%;
+    height: 93%;
 }
 .action_graph{
     position: fixed;
     right: 5px;
     bottom: 5px;
 }
+.info_msg{
+    background-color: rgb(140, 200, 140);
+    color: rgb(1, 126, 1);
+    text-align: center;
+}
+button:disabled {
+    cursor: not-allowed;
+    pointer-events: all !important;
+  }
 
 .center_form{
     width: 450px;

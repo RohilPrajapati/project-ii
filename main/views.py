@@ -46,7 +46,7 @@ def login():
             return render_template('pages/login.html',response=response)
         if not check_password_hash(user['password'],password):
             response = {
-                'message':'Password Incorrrect'
+                'message':'Password Incorrect'
             }
             return render_template('pages/login.html',response=response)
         session['id']= user['id']
@@ -68,8 +68,17 @@ def register():
         password = request.form['password']
         h_pass = generate_password_hash(password)
         print(h_pass)
-        create_user(username=username,email=email,password=h_pass)
-        return render_template('pages/register.html')
+        try:
+            create_user(username=username,email=email,password=h_pass)
+            response = {
+                'message':'Registered User'
+            }
+            return render_template('pages/register.html',response=response)
+        except:
+            response = {
+                'message':'User Registration fail'
+            }
+            return render_template('pages/register.html',response=response)
 
 @app.route('/logout',methods=['GET'])
 def logout():
@@ -80,3 +89,15 @@ def logout():
             'message':'User have been logout'
         }
         return render_template('pages/login.html',response = response)
+
+# admin view
+@app.route('/logout',methods=['GET'])
+def admin_login():
+    if request.method == 'GET':
+        pass
+    if request.method == 'POST':
+        pass
+@app.route('/logout',methods=['GET'])
+def dashboard():
+    ...
+

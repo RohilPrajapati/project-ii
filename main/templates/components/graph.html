@@ -1,58 +1,87 @@
 <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" integrity="sha512-UXumZrZNiOwnTcZSHLOfcTs0aos2MzBWHXOHOuB0J/R44QB0dwY5JgfbvljXcklVf65Gc4El6RjZ+lnwd2az2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"
+    integrity="sha512-UXumZrZNiOwnTcZSHLOfcTs0aos2MzBWHXOHOuB0J/R44QB0dwY5JgfbvljXcklVf65Gc4El6RjZ+lnwd2az2g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/0.7.7/chartjs-plugin-zoom.min.js"></script>
 
 <div class="chart_div">
-
-    <canvas id="myChart" style="width:100%;height:93vh;" class="chart"></canvas>
+    <canvas id="myChart" style="width:100%;" class="chart"></canvas>
 </div>
 <div class="action_graph">
     <button class="" onclick="switchChartType()">Switch</button>
 </div>
 <script>
     // Get the canvas element
-    var ctx = document.getElementById('myChart').getContext('2d');
+    var canvas = document.getElementById('myChart');
+    // canvas.height = '80%';
+    canvas.width = '100%';
+    var ctx = canvas.getContext('2d');
 
     // Set initial chart type
     var chartType = 'scatter';
 
+
     // Set initial chart data
-    var data = {
+    var g_data = {
         datasets: [
             {
-                label: 'Scatter Chart',
+                // label: 'Scatter Chart',
                 data: [
-                    { x: 1, y: 3 },
-                    { x: 2, y: 5 },
-                    { x: 3, y: 2 },
-                    { x: 4, y: 8 },
-                    { x: 5, y: 4 },
+                    // { x: 1, y: 3 },
+                    // { x: 2, y: 5 },
+                    // { x: 3, y: 2 },
+                    // { x: 4, y: 8 },
+                    // { x: 5, y: 4 },
                 ],
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                lineTension: 0.5,
+                backgroundColor: '#171717',
+                borderColor: '#111111',
+                lineTension: 0.3,
+                // pointLabels: false,
+                showLine: true,
+                fill: false
+                
             },
         ],
     };
+
+    // modify methods
+
+    function addData(start,x,y){
+        item = {
+            'x':x,
+            'y':y
+        }
+        console.log(g_data.datasets)
+        g_data.datasets[0].data.splice(start,0,item)
+        refreshChart()
+    }
+    function removeData(){
+        data.pop()
+        refreshChart()
+    }
 
     // Set initial chart options
     var options = {
         animation: false,
         responsive: true,
-
+        maintainAspectRatio: true,
+        legend: {
+            display: false, // Disable legend labels
+        },
         scales: {
-            yAxes: [{
-              position: 'right',
-                ticks: {
-                    beginAtZero:true,
-                    // position: 'right'
-                }
-            }],
+            x: {
+                beginAtZero: true,
+                position: 'center', 
+            },
+            y: {
+                beginAtZero: true,
+                position: 'center',
+            }   
 
         },
-        plugins: {
+        plugins: {  
             zoom: {
                 // Container for pan options
                 pan: {
@@ -74,33 +103,44 @@
                     mode: 'xy',
                 }
             }
-        }
-        // maintainAspectRatio: true,
+        },
     };
 
     // Create the chart
     var myChart = new Chart(ctx, {
         type: chartType,
-        data: data,
+        data: g_data,
         options: options,
     });
 
     // Function to switch chart types
     function switchChartType() {
-        console.log("running")
-        // Update the chart type and destroy the previous chart
-        var ctx = document.getElementById('myChart').getContext('2d');
-        chartType = chartType === 'scatter' ? 'line' : 'scatter';
+
+        myChart.destroy();
+
+        if (g_data.datasets[0]['showLine']){
+            g_data.datasets[0]['showLine'] = false
+        }else{
+            g_data.datasets[0]['showLine'] = true
+        }
+        // Create a new chart with the updated type
+        myChart = new Chart(ctx, {
+            type: chartType,
+            data: g_data,
+            options: options,
+        }); 
+
+        // myChart.canvas.style.font-size = '12px';
+
+    }
+    function refreshChart(){
         myChart.destroy();
 
         // Create a new chart with the updated type
         myChart = new Chart(ctx, {
             type: chartType,
-            data: data,
+            data: g_data,
             options: options,
-        });
-        console.log(chartType)
-        console.log(data)
-        console.log(options)
+        }); 
     }
 </script>
