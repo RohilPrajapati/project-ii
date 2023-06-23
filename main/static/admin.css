@@ -1,0 +1,13 @@
+.main_body{
+    display: flex;
+}
+.admin_nav{
+    position: fixed;
+    height: 100vh;
+    width: 20%;
+    background-color: aliceblue;
+}
+.content{
+    margin-left: 300px;
+    width: 80%;
+}

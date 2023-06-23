@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../../static/admin.css"  rel="stylesheet"/>
+    <title>{% block title %} {% endblock %}</title>
+</head>
+
+<body>
+    <div class="main_body">
+        <div class="admin_nav">
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('user') }}">User</a></li>
+            </ul>
+
+        </div>
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+
+</html>

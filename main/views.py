@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 @app.route('/',methods=['GET','POST'])
 def index():
     if request.method == 'GET':
-        return render_template('index.html',response={'data_status':False})
+        return render_template('index.j2',response={'data_status':False})
     if request.method == 'POST':
         print(request)
         eqn = request.form['eqn']
@@ -26,14 +26,14 @@ def index():
             response = false_position(eqn,a,b)
         elif algo == "fixedPoint":
             response = fixed_point(eqn,a,b)
-        return render_template('index.html',response=response)
+        return render_template('index.j2',response=response)
     
 @app.route('/login',methods=['GET','POST'])
 def login():
     if request.method == 'GET':
         if session['id']:
             return redirect(url_for('index'))
-        return render_template('pages/login.html')
+        return render_template('pages/login.j2')
     elif request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -43,24 +43,24 @@ def login():
             response = {
                 'message':'Username is not register'
             }
-            return render_template('pages/login.html',response=response)
+            return render_template('pages/login.j2',response=response)
         if not check_password_hash(user['password'],password):
             response = {
                 'message':'Password Incorrect'
             }
-            return render_template('pages/login.html',response=response)
+            return render_template('pages/login.j2',response=response)
         session['id']= user['id']
         session["username"] = user['username']
         response = {
             'message':'Login Success'
         }
         return redirect(url_for('index'))
-        # return render_template('pages/login.html',response=response)
+        # return render_template('pages/login.j2',response=response)
 
 @app.route('/register',methods=['GET','POST'])
 def register():
     if request.method == 'GET':
-        return render_template('pages/register.html')
+        return render_template('pages/register.j2')
     elif request.method == 'POST':
         print(request)
         username = request.form['username']
@@ -73,12 +73,12 @@ def register():
             response = {
                 'message':'Registered User'
             }
-            return render_template('pages/register.html',response=response)
+            return render_template('pages/register.j2',response=response)
         except:
             response = {
                 'message':'User Registration fail'
             }
-            return render_template('pages/register.html',response=response)
+            return render_template('pages/register.j2',response=response)
 
 @app.route('/logout',methods=['GET'])
 def logout():
@@ -88,16 +88,25 @@ def logout():
         response = {
             'message':'User have been logout'
         }
-        return render_template('pages/login.html',response = response)
+        return render_template('pages/login.j2',response = response)
 
 # admin view
-@app.route('/logout',methods=['GET'])
+@app.route('/admin/login',methods=['GET'])
 def admin_login():
     if request.method == 'GET':
         pass
     if request.method == 'POST':
         pass
-@app.route('/logout',methods=['GET'])
+
+
+@app.route('/admin/dashboard',methods=['GET'])
 def dashboard():
-    ...
+    if request.method == "GET":
+        return render_template('pages/admin/dashboard.j2')
+    
+
+@app.route('/admin/user',methods=['GET'])
+def user():
+    if request.method == "GET":
+        return render_template('pages/admin/user.j2')
 
