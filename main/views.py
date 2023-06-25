@@ -2,7 +2,7 @@ from main import app
 from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
 from main.algorithms import bisection,newton_raphson,false_position,fixed_point
 from main.init_db import get_db_connection
-from main.db_helper import create_user,fetch_user
+from main.db_helper import create_user,fetch_user,fetch_users,toggle_status_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -79,6 +79,11 @@ def register():
                 'message':'User Registration fail'
             }
             return render_template('pages/register.j2',response=response)
+        
+@app.route('/profile',methods=['GET'])
+def profile():
+    if request.method == 'GET':
+        return render_template('pages/profile.j2')
 
 @app.route('/logout',methods=['GET'])
 def logout():
@@ -108,5 +113,21 @@ def dashboard():
 @app.route('/admin/user',methods=['GET'])
 def user():
     if request.method == "GET":
-        return render_template('pages/admin/user.j2')
+        users = fetch_users()
+        return render_template('pages/admin/user.j2',users=users)
+
+@app.route('/admin/user/<int:user_id>',methods=['GET','POST'])
+def user_detail(user_id):
+    print('request hekw')
+    if request.method == "GET":
+        users = fetch_user()
+        return render_template('pages/admin/user.j2',users=users)
+    if request.method == "POST":
+        print('request hit')
+        print(user_id)
+        toggle_status_user(user_id)
+        users = fetch_users()
+        return redirect(url_for('user'))
+        
+
 

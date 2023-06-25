@@ -2,12 +2,13 @@
     <span class="brand_name">Solver</span>
     <ul class="menu">
         <li>
-            <a href="{{ url_for('index') }}">Home</a>
+            <a class="nav_link" href="{{ url_for('index') }}">Home</a>
         </li>
         {% if not session['id'] %}
         <li><a class="nav_link" href="{{ url_for('login') }}">Login</a></li>
-        <li><a href="{{ url_for('register') }}">Register</a></li>
+        <li><a class="nav_link" href="{{ url_for('register') }}">Register</a></li>
         {% else %}
+        <li><a class="nav_link" href="{{ url_for('profile')}}" style="text-transform: capitalize">{{session["username"]}}</a></li>
         <li><a class="nav_link" href="{{ url_for('logout') }}">Logout</a></li>
         {% endif %}
         

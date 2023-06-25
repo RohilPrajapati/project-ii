@@ -5,4 +5,34 @@ User List
 
 {% block content %}
 User List
+<table class="list_table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users%}
+        <form action="{{ url_for('user_detail',user_id=user['id']) }}" method="POST">
+            <tr>
+                <td>{{ user['id'] }}</td>
+                <td>{{ user['username'] }}</td>
+                <td>{{ user['email'] }}</td>
+                <td>{{ user['is_active'] }}</td>
+                <td>
+                    {% if user['is_active'] %}
+                    <input type="submit" class="btn danger" value="Disable">
+                    {% else %}
+                    <input type="submit" class="btn safe" value="Enable">
+                    {% endif %}
+                </td>
+            </tr>
+        </form>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

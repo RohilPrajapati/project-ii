@@ -1,0 +1,16 @@
+{% extends "base.j2" %}
+{% block title %}
+{{ session['username'] }}
+{% endblock %}
+{% block body %}
+{% if response and response.message%}
+<span class="alert-msg">
+    {{response.message}}
+</span>
+{% endif %}
+<div >
+    <span style="text-transform: capitalize">
+        Username: {{ session['username'] }}
+    </span>
+</div>
+{% endblock %}
