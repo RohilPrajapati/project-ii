@@ -29,11 +29,11 @@
             {
                 // label: 'Scatter Chart',
                 data: [
-                    // { x: 1, y: 3 },
-                    // { x: 2, y: 5 },
-                    // { x: 3, y: 2 },
-                    // { x: 4, y: 8 },
-                    // { x: 5, y: 4 },
+                    { x: 1, y: 3 },
+                    { x: 2, y: 5 },
+                    { x: 3, y: 2 },
+                    { x: 4, y: 8 },
+                    { x: 5, y: 4 },
                 ],
                 backgroundColor: '#171717',
                 borderColor: '#111111',
@@ -42,6 +42,45 @@
                 showLine: true,
                 fill: false
 
+            },
+            {
+                // label: 'Scatter Chart',
+                data: [
+                    { x: 5, y: 4 },
+                    { x: 5, y: 0 }
+                ],
+                backgroundColor: '#00ff00',
+                borderColor: '#00ff00',
+                lineTension: 0.3,
+                // pointLabels: false,
+                showLine: true,
+                fill: false
+            },
+            {
+                // label: 'Scatter Chart',
+                data: [
+                    { x: 5, y: 4 },
+                    { x: 4, y: 0 }
+                ],
+                backgroundColor: '#0000ff',
+                borderColor: '#0000ff',
+                lineTension: 0.3,
+                // pointLabels: false,
+                showLine: true,
+                fill: false
+            },
+            {
+                // label: 'Scatter Chart',
+                data: [
+                    { x: 4, y: 8 },
+                    { x: 4, y: 0 }
+                ],
+                backgroundColor: '#00ff00',
+                borderColor: '#00ff00',
+                lineTension: 0.3,
+                // pointLabels: false,
+                showLine: true,
+                fill: false
             },
         ],
     };
@@ -101,25 +140,36 @@
                     // Zooming directions. Remove the appropriate direction to disable 
                     // Eg. 'y' would only allow zooming in the y direction
                     mode: 'xy',
+                    // not working 
+                    onZoom: function ({ chart }) {
+                        console.log("working")
+                        var meta = chart.getDatasetMeta(0);
+                        x_min = meta.controller._xScale._startValue
+                        x_max = meta.controller._xScale._endValue
+                        y_min = meta.controller._yScale._startValue
+                        y_max = meta.controller._yScale._endValue
+                        console.log(x_min)
+                        console.log(x_max)
+                        console.log(y_min)
+                        console.log(y_max)
+
+                        
+                        {# var xScale = meta.xScale;
+                        var yScale = meta.yScale;
+                        var xMin = xScale.getValueForPixel(xScale.left);
+                        var xMax = xScale.getValueForPixel(xScale.right);
+                        var yMin = yScale.getValueForPixel(yScale.bottom);
+                        var yMax = yScale.getValueForPixel(yScale.top);
+
+                        console.log('xMin:', xMin);
+                        console.log('xMax:', xMax);
+                        console.log('yMin:', yMin);
+                        console.log('yMax:', yMax); #}
+                    }
+                    // end not working
                 }
             },
-            // not working 
-            onZoom: function ({ myChart }) {
-                console.log("working")
-                var meta = myChart.getDatasetMeta(0);
-                var xScale = meta.xScale;
-                var yScale = meta.yScale;
-                var xMin = xScale.getValueForPixel(xScale.left);
-                var xMax = xScale.getValueForPixel(xScale.right);
-                var yMin = yScale.getValueForPixel(yScale.bottom);
-                var yMax = yScale.getValueForPixel(yScale.top);
 
-                console.log('xMin:', xMin);
-                console.log('xMax:', xMax);
-                console.log('yMin:', yMin);
-                console.log('yMax:', yMax);
-            }
-            // end not working
         },
     };
 

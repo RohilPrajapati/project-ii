@@ -8,23 +8,64 @@ Register
     {{response['message']}}
 </div>
 {% endif %}
-<form action="{{ url_for('register') }}" method="POST" class="center_form">
+<span class="client_alert_msg" id="alert_msg">
+</span>
+<script>
+    function validate_registration() {
+        console.log("working")
+        username = document.getElementById('username')
+        email = document.getElementById('email')
+        password = document.getElementById('password')
+        c_password = document.getElementById('c_password')
+        alert_msg = document.getElementById('alert_msg')
+        if (username.value.trim() == '') {
+            alert_msg.innerHTML = "Username Cant be empty"
+            alert_msg.style.display = "block";
+            alert_msg.style.color = "red";
+        }
+        else if (email.value.trim() == '') {
+            alert_msg.innerHTML = "E-mail Cant be empty"
+            alert_msg.style.display = "block";
+            alert_msg.style.color = "red";
+        }
+        else if (password.value.trim() == '') {
+            alert_msg.innerHTML = "Password Cant be empty"
+            alert_msg.style.display = "block";
+            alert_msg.style.color = "red";
+        }
+        else if (c_password.value.trim() == '') {
+            alert_msg.innerHTML = "Confirm Password Cant be empty"
+            alert_msg.style.display = "block";
+            alert_msg.style.color = "red";
+        }
+        else if(c_password.value.trim() != password.value.trim()){
+            alert_msg.innerHTML = "Confirm Password and Password don't Match"
+            alert_msg.style.display = "block";
+            alert_msg.style.color = "red";
+        }
+        else {
+            document.getElementById('loginform').submit()
+        }
+    }
+
+</script>
+<form action="{{ url_for('register') }}" method="POST" class="center_form" onsubmit="event.preventDefault(); validate_registration()">
     <div class="input_box">
         <label for="username">Username</label>
-        <input type="text" class="input_field" name="username" placeholder="Username" style="border: 1px solid black;">
+        <input type="text" id="username" class="input_field" name="username" placeholder="Username" style="border: 1px solid black;">
     </div>
     <div class="input_box">
         <label for="email">Email</label>
-        <input type="text" class="input_field" name="email" placeholder="Username" style="border: 1px solid black;">
+        <input type="email" id="email" class="input_field" name="email" placeholder="Email" style="border: 1px solid black;">
     </div>
     <div class="input_box">
         <label for="password">Password</label>
-        <input class="input_field" type="password" name="password" placeholder="Password"
+        <input class="input_field" id="password" type="password" name="password" placeholder="Password"
             style="border: 1px solid black;">
     </div>
     <div class="input_box">
         <label for="Confirm Password">Confirm Password</label>
-        <input type="password" name="confirm_password" placeholder="Confirm Password" class="input_field"
+        <input type="password" id="c_password" name="confirm_password" placeholder="Confirm Password" class="input_field"
             style="border: 1px solid black;">
     </div>
     <div style="text-align:  center;">

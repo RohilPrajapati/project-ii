@@ -8,14 +8,41 @@ Login
     {{response.message}}
 </span>
 {% endif %}
-<form action="{{ url_for('login') }}" method="POST" class="center_form">
+<span class="client_alert_msg" id="alert_msg">
+</span>
+<script>
+    function validate_login() {
+        console.log("working")
+        username = document.getElementById('username')
+        password = document.getElementById('password')
+        alert_msg = document.getElementById('alert_msg')
+        if (username.value.trim() == '') {
+            alert_msg.innerHTML = "Username Cant be empty"
+            alert_msg.style.display = "block";
+            alert_msg.style.color = "red";
+        }
+        else if (password.value.trim() == '') {
+            alert_msg.innerHTML = "Password Cant be empty"
+            alert_msg.style.display = "block";
+            alert_msg.style.color = "red";
+        }
+        else {
+            document.getElementById('loginform').submit()
+        }
+    }
+
+</script>
+<form action="{{ url_for('login') }}" method="POST" class="center_form"
+    onsubmit="event.preventDefault(); validate_login()" id="loginform">
     <div class="input_box">
         <label for="username">Username</label>
-        <input class="input_field" type="text" name="username" placeholder="Username/Email" style="border: 1px solid black;">
+        <input class="input_field" id="username" type="text" name="username" placeholder="Username/Email"
+            style="border: 1px solid black;">
     </div>
     <div class="input_box">
         <label for="password"> Password</label>
-        <input class="input_field" style="border: 1px solid black;" type="password" name="password" placeholder="Password">
+        <input class="input_field" id="password" style="border: 1px solid black;" type="password" name="password"
+            placeholder="Password">
     </div>
     <div style="text-align: center;">
         <input type="submit" class="submit_btn" value="Login">
