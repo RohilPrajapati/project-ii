@@ -9,9 +9,9 @@
 <div class="chart_div">
     <canvas id="myChart" style="width:100%;" class="chart"></canvas>
 </div>
-<div class="action_graph">
+{# <div class="action_graph">
     <button class="" onclick="switchChartType()">Switch</button>
-</div>
+</div> #}
 <script>
     // Get the canvas element
     var canvas = document.getElementById('myChart');
@@ -29,11 +29,11 @@
             {
                 // label: 'Scatter Chart',
                 data: [
-                    { x: 1, y: 3 },
-                    { x: 2, y: 5 },
-                    { x: 3, y: 2 },
-                    { x: 4, y: 8 },
-                    { x: 5, y: 4 },
+                    //{ x: 1, y: 3 },
+                    //{ x: 2, y: 5 },
+                    //{ x: 3, y: 2 },
+                    //{ x: 4, y: 8 },
+                    //{ x: 5, y: 4 },
                 ],
                 backgroundColor: '#171717',
                 borderColor: '#111111',
@@ -43,7 +43,7 @@
                 fill: false
 
             },
-            {
+            {# {
                 // label: 'Scatter Chart',
                 data: [
                     { x: 5, y: 4 },
@@ -81,20 +81,84 @@
                 // pointLabels: false,
                 showLine: true,
                 fill: false
-            },
+            }, #}
         ],
     };
 
-    // modify methods
+    // data modify methods
+    function check_coridinate_exists(obj, list) {
+        var i;
+        for (i = 0; i < list.length; i++) {
+            if (list[i] === obj) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    function addDataset(x1, y1, x2, y2, x3 = null, y3 = null, x4 = null, y4 = null) {
+
+        if (current_val < 0) {
+            straight = {
+                // label: 'Scatter Chart',
+                data: [
+                    { x: x1, y: y1 },
+                    { x: x2, y: y2 }
+                ],
+                backgroundColor: '#00ff00',
+                borderColor: '#00ff00',
+                lineTension: 0.3,
+                // pointLabels: false,
+                showLine: true,
+                fill: false
+            }
+            g_data.datasets.push(straight)
+        }
+        else {
+            straight = {
+                // label: 'Scatter Chart',
+                data: [
+                    { x: x1, y: y1 },
+                    { x: x2, y: y2 }
+                ],
+                backgroundColor: '#00ff00',
+                borderColor: '#00ff00',
+                lineTension: 0.3,
+                // pointLabels: false,
+                showLine: true,
+                fill: false
+            }
+            g_data.datasets.push(straight)
+            tangentLine = {
+                // label: 'Scatter Chart',
+                data: [
+                    { x: x3, y: y3 },
+                    { x: x4, y: y4 }
+                ],
+                backgroundColor: '#0000ff',
+                borderColor: '#0000ff',
+                lineTension: 0.3,
+                // pointLabels: false,
+                showLine: true,
+                fill: false
+            }
+            g_data.datasets.push(tangentLine)
+        }
+
+    }
 
     function addData(start, x, y) {
         item = {
             'x': x,
             'y': y
         }
-        console.log(g_data.datasets)
-        g_data.datasets[0].data.splice(start, 0, item)
-        refreshChart()
+        if (!check_coridinate_exists(item, g_data.datasets[0].data)) {
+            console.log(g_data.datasets[0].data)
+            g_data.datasets[0].data.splice(start, 0, item)
+            refreshChart()
+        }
+
+
     }
     function removeData() {
         data.pop()
@@ -153,18 +217,18 @@
                         console.log(y_min)
                         console.log(y_max)
 
-                        
-                        {# var xScale = meta.xScale;
-                        var yScale = meta.yScale;
-                        var xMin = xScale.getValueForPixel(xScale.left);
-                        var xMax = xScale.getValueForPixel(xScale.right);
-                        var yMin = yScale.getValueForPixel(yScale.bottom);
-                        var yMax = yScale.getValueForPixel(yScale.top);
 
-                        console.log('xMin:', xMin);
-                        console.log('xMax:', xMax);
-                        console.log('yMin:', yMin);
-                        console.log('yMax:', yMax); #}
+                        {# var xScale = meta.xScale;
+                            var yScale = meta.yScale;
+                            var xMin = xScale.getValueForPixel(xScale.left);
+                            var xMax = xScale.getValueForPixel(xScale.right);
+                            var yMin = yScale.getValueForPixel(yScale.bottom);
+                            var yMax = yScale.getValueForPixel(yScale.top);
+
+                            console.log('xMin:', xMin);
+                            console.log('xMax:', xMax);
+                            console.log('yMin:', yMin);
+                            console.log('yMax:', yMax); #}
                     }
                     // end not working
                 }

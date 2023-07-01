@@ -115,13 +115,16 @@
         b_div.style.display = "none"
     }
 
+    function validate_input(){
+
+    }
 
     // when event is occur
     function check_algo() {
         var algo = document.getElementById('algo');
         var val = algo.value;
 
-        if (val == "newtonRaphson") {
+        if (val == "newtonRaphson" || val == "fixedPoint") {
             var b_div = document.getElementById('b_div');
             b_div.style.display = "none"
         }
@@ -130,5 +133,5 @@
             b_div.style.display = "flex"
         }
     }
-    
+
 </script>
