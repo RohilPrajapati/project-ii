@@ -89,6 +89,9 @@
     function check_coridinate_exists(obj, list) {
         var i;
         for (i = 0; i < list.length; i++) {
+            console.log("list : " + list[i])
+            console.log("obj: " + obj)
+            console.log(obj === list[i])
             if (list[i] === obj) {
                 return true;
             }
@@ -96,8 +99,13 @@
 
         return false;
     }
+    function updateDataset(x1, y1, x2, y2) {
+        g_data.datasets[1]['data'][0]['x'] = x1
+        g_data.datasets[1]['data'][0]['y'] = y1
+        g_data.datasets[1]['data'][1]['x'] = x2
+        g_data.datasets[1]['data'][1]['y'] = y2
+    }
     function addDataset(x1, y1, x2, y2, x3 = null, y3 = null, x4 = null, y4 = null) {
-
         if (current_val < 0) {
             straight = {
                 // label: 'Scatter Chart',
@@ -153,12 +161,16 @@
             'y': y
         }
         if (!check_coridinate_exists(item, g_data.datasets[0].data)) {
-            console.log(g_data.datasets[0].data)
             g_data.datasets[0].data.splice(start, 0, item)
             refreshChart()
         }
 
 
+    }
+    function removeDataBisection(x1, y1, x2, y2) {
+        g_data.datasets[0].data.slice(current_val - 1)
+        updateDataset(x1, y1, x2, y2)
+        refreshChart()
     }
     function removeData() {
         data.pop()
@@ -218,7 +230,7 @@
                         console.log(y_max)
 
 
-                        {# var xScale = meta.xScale;
+                        /* var xScale = meta.xScale;
                             var yScale = meta.yScale;
                             var xMin = xScale.getValueForPixel(xScale.left);
                             var xMax = xScale.getValueForPixel(xScale.right);
@@ -228,7 +240,8 @@
                             console.log('xMin:', xMin);
                             console.log('xMax:', xMax);
                             console.log('yMin:', yMin);
-                            console.log('yMax:', yMax); #}
+                            console.log('yMax:', yMax); #
+                        */
                     }
                     // end not working
                 }

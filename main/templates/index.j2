@@ -78,6 +78,14 @@ Home
             addData(current_val, res_data[current_val]['a'], res_data[current_val]['f(a)'])
         }
         else {
+            if(val == "bisection"){
+                if (g_data.datasets[1]){
+                    updateDataset(res_data[current_val]['a'],0, res_data[current_val]['b'], 0)
+                }else{
+                    addDataset(res_data[current_val]['a'],0, res_data[current_val]['b'], 0)
+                }
+
+            }
             addData(current_val, res_data[current_val]['a'], res_data[current_val]['f(a)'])
             addData(current_val, res_data[current_val]['b'], res_data[current_val]['f(b)'])
         }
@@ -96,12 +104,16 @@ Home
     function previous_btn() {
         var table = document.getElementById('data_table');
         var rowCount = table.rows.length;
+
+        // disable the btn
         if (current_val <= 0) {
             var btn = document.getElementById("btn_prev");
-            // Disable the button
             btn.disabled = true;
         }
         if (rowCount > 0) {
+            if (val =='bisection'){
+                removeDataBisection(res_data[current_val-1]['a'],0, res_data[current_val-1]['b'], 0)
+            }
             table.deleteRow(rowCount - 1);
             current_val--;
         }
