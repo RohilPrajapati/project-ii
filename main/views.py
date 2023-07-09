@@ -2,7 +2,7 @@ from main import app
 from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
 from main.algorithms import bisection,newton_raphson,false_position,fixed_point
 from main.init_db import get_db_connection
-from main.db_helper import create_user,fetch_user,fetch_users,toggle_status_user
+from main.db_helper import create_user,fetch_user,fetch_users,toggle_status_user,insert_query, fetch_user_history
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -16,6 +16,10 @@ def index():
         a = request.form['a']
         b = request.form['b']
         algo = request.form['algo']
+        if session['id']:
+            insert_query(algo,eqn,a,b,session['id'])
+        else:
+            insert_query(algo,eqn,a,b)
         response = {}
         if algo == "bisection":
             response = bisection(eqn,a,b)
@@ -26,6 +30,7 @@ def index():
             response = false_position(eqn,a,b)
         elif algo == "fixedPoint":
             response = fixed_point(eqn,a,b)
+        
         return render_template('index.j2',response=response)
     
 @app.route('/login',methods=['GET','POST'])
@@ -94,6 +99,15 @@ def logout():
             'message':'User have been logout'
         }
         return render_template('pages/login.j2',response = response)
+
+@app.route('/history',methods=['GET'])
+def history():
+    if request.method == 'GET':
+        query = fetch_user_history(session['id'])
+        response = {
+            'data': query
+        }
+        return render_template('pages/history.j2',response = response)
 
 # admin view
 @app.route('/admin/login',methods=['GET'])

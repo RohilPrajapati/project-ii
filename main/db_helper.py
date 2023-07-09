@@ -57,3 +57,27 @@ def toggle_status_user(id):
         conn.commit()
         # result = curs.fetchone()
     return None
+
+def insert_query(algo,eqn,a,b,user_id=None):
+    conn = get_db_connection()
+    with conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor) as curs:
+        if user_id:
+            check_sql = f'select * from query where user_id = {user_id} order by id desc LIMIT 1'
+            curs.execute(check_sql)
+            query = curs.fetchone()
+            print(query)
+            # print(query['algo'] != algo and query['equation'] != eqn and query['a_val'] != a and query['a_val'] != b)
+            if query:
+                if query['algo'] != algo or query['equation'] != eqn or query['a_val'] != int(a) or query['b_val'] != int(b):  
+                    sql = f"Insert into query(algo,equation,a_val,b_val,user_id) values ('{algo}','{eqn}',{a},{b},{user_id});"
+                    curs.execute(sql)
+                    conn.commit()
+    return None
+
+def fetch_user_history(user_id):
+    conn = get_db_connection()
+    with conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor) as curs:
+        SQL = f"Select * from query where user_id='{user_id}' order by id desc limit 10"
+        curs.execute(SQL)
+        query = curs.fetchall()
+    return query 

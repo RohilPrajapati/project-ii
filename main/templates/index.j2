@@ -111,11 +111,18 @@ Home
             btn.disabled = true;
         }
         if (rowCount > 0) {
+            // graph operation in perviouse btn
             if (val =='bisection'){
                 removeDataBisection(res_data[current_val-1]['a'],0, res_data[current_val-1]['b'], 0)
+                
             }
+
+            //side table operation
+
             table.deleteRow(rowCount - 1);
             current_val--;
+
+
         }
         if ((current_val + 1) < res_data.length) {
             var msg = document.getElementById("complete_msg")

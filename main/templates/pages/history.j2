@@ -1,0 +1,32 @@
+{% extends "base.j2" %}
+{% block title %}
+{{ session['username'] }}
+{% endblock %}
+{% block body %}
+{% if response and response.message%}
+<span class="alert-msg">
+    {{response.message}}
+</span>
+{% endif %}
+<div class="history_main">
+    <h2 style="text-align:center">History</h2>
+    <div class="list_history">
+        {% for query in response.data %}
+        <div class="record">
+            <span><b>Algorithm :</b>{{query['algo']}}</span>
+            <span><b>Equation :</b> {{query['equation']}}</span>
+            <span><b>First Guess :</b> {{query['a_val']}}</span>
+            <span><b>Second Guess :</b> {{query['b_val']}}</span>
+            <form action="{{url_for('index')}}" method="post">
+                <input id="b" class="input_field" name="algo" placeholder="Guess number 2" type="hidden" value="{{query['algo']}}">
+                <input id="b" class="input_field" name="eqn" placeholder="Guess number 2" type="hidden" value="{{query['equation']}}">
+                <input id="b" class="input_field" name="a" placeholder="Guess number 2" type="hidden" value="{{query['a_val']}}">
+                <input id="b" class="input_field" name="b" placeholder="Guess number 2" type="hidden" value="{{query['b_val']}}">
+
+                <button class="btn btn_primary" type="submit">Solve</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
