@@ -67,10 +67,13 @@ def insert_query(algo,eqn,a,b,user_id=None):
             query = curs.fetchone()
             print(query)
             # print(query['algo'] != algo and query['equation'] != eqn and query['a_val'] != a and query['a_val'] != b)
+            if b:
+                b = int(b)
             if query:
-                if query['algo'] != algo or query['equation'] != eqn or query['a_val'] != int(a) or query['b_val'] != int(b):  
-                    sql = f"Insert into query(algo,equation,a_val,b_val,user_id) values ('{algo}','{eqn}',{a},{b},{user_id});"
-                    curs.execute(sql)
+                if query['algo'] != algo or query['equation'] != eqn or query['a_val'] != int(a) or query['b_val'] != b:  
+                    sql = f"Insert into query(algo,equation,a_val,b_val,user_id) values (%s,%s,%s,%s,%s);"
+                    print(sql)
+                    curs.execute(sql,(algo,eqn,a,b,user_id))
                     conn.commit()
     return None
 
@@ -81,3 +84,10 @@ def fetch_user_history(user_id):
         curs.execute(SQL)
         query = curs.fetchall()
     return query 
+
+def db_change_password(user_id,new_pass):
+    conn = get_db_connection()
+    with conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor) as curs:
+        SQL = f"UPDATE users set password='{new_pass}' where id='{user_id}'"
+        curs.execute(SQL)
+    return True

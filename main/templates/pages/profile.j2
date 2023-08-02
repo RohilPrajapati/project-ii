@@ -8,9 +8,16 @@
     {{response.message}}
 </span>
 {% endif %}
-<div >
-    <span style="text-transform: capitalize">
-        Username: {{ session['username'] }}
+<div>
+    <span class="profile_main">
+        <div class="profile_detail">
+            Username: {{ session['username'] }}
+            Total Solve: {{ response['total_solve'] }}
+        </div>
+        <div class="profile_side">
+            <a href="{{ url_for('change_password') }}" class="profile_side_btn">Change Password</a>
+            <a href="{{ url_for('history') }}" class="profile_side_btn">Solve History</a>
+        </div>
     </span>
 </div>
 {% endblock %}
